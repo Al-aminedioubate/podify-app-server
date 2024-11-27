@@ -1,17 +1,16 @@
 import express  from "express";
-import "dotenv/config";
+import "dotenv/config";             //is imported for .env use or the app can't reconigze it and it has to be always placed before the DB import.
 import "./db";
 
 const app = express();
 
-const PORT = 8989;
+const PORT = process.env.PORT || 8989;
 
 app.listen(PORT, () =>{
     console.log("Port is listening on port " + PORT);
 })
 
-
-/**
+/****
  * The Plan and features
  * upload audio files
  * Listen to single audio
@@ -20,4 +19,4 @@ app.listen(PORT, () =>{
  * remove playlist (public-private)
  * remove audios
  * many more 
- */
+ ****/

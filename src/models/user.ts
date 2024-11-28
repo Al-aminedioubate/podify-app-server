@@ -16,18 +16,18 @@ interface UserDocuments{
 const userSchema = new Schema<UserDocuments>({
     name:{
         type: String,
-        required:true,
+        required: true,
         trim: true,
     },
     email:{
         type: String,
-        required:true,
+        required: true,
         trim: true,
         unique: true,
     },
     password:{
         type: String,
-        required:true,
+        required: true,
     },
     avatar:{
         type: Object,

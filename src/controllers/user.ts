@@ -19,6 +19,7 @@ export const create: RequestHandler = async (req: CreateUser, res) =>{
         }
     });
 
+    //ce code nous permet d'envoyer l'email de verification dans nodemailer.
     transport.sendMail({
         to: user.email,
         from: "auth@myapp.com",

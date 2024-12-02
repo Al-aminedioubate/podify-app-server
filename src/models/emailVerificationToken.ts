@@ -22,7 +22,6 @@ const emailVerificationTokenSchema = new Schema<emailVerificationTokenDocument>(
         expires: 3600,
         default: Date.now()
     }
-    
 });
 
 export default model("emailVerificationTokenSchema", emailVerificationTokenSchema) as Model<emailVerificationTokenDocument>

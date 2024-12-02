@@ -4,8 +4,8 @@ import * as yup from "yup";
 export const validate = (schema: any): RequestHandler => {
     return async (req, res, next) => {
         if (!req.body) return res.status(422).json({ error: "Empty body is not excepted!" });
-        const schemaToValidate = yup.object({
-         body: schema,                  //converted schema to body now body has all the properties we need.
+            const schemaToValidate = yup.object({
+            body: schema,                 //converted schema to body now body has all the properties we need.
         });
 
         try {

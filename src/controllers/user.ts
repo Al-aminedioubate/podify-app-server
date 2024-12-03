@@ -9,7 +9,7 @@ import { generateToken } from "#/utils/helper";
 
 export const create: RequestHandler = async (req: CreateUser, res) =>{
     const {email, password, name } = req.body;
- 
+
     const user = await User.create({ name, email, password });
     //Send email verification
     var transport = nodemailer.createTransport({
@@ -23,10 +23,10 @@ export const create: RequestHandler = async (req: CreateUser, res) =>{
     
     //creation of token 
     const token = generateToken();
-    const verificationToken = await EmailVerificationToken.create({
+    const newToken = await EmailVerificationToken.create({
         owner: user._id,
         token: token,
-    })
+    });
 
     //ce code nous permet d'envoyer l'email de verification dans nodemailer.
     transport.sendMail({

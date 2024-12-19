@@ -1,3 +1,4 @@
+import { compare, hash } from "bcrypt";
 import { model, Model, ObjectId, Schema } from "mongoose";
 
 //creation d'interface(typescript) pour le model de l'utilisateur.
@@ -13,7 +14,11 @@ interface UserDocuments{
     followings: ObjectId[];
 }
 
-const userSchema = new Schema<UserDocuments>({
+interface Methods {
+   comparePassword(password: string): Promise<boolean> 
+}
+
+const userSchema = new Schema<UserDocuments, {}, Methods >({
     name:{
         type: String,
         required: true,
@@ -52,6 +57,19 @@ const userSchema = new Schema<UserDocuments>({
     }],
     tokens: [String],
 }, {timestamps: true});
+
+//Fonction permetant de casser le mot de passe dans la base de donnees pour plus de sureté
+userSchema.pre('save', async function(next){
+    if(this.isModified('password')){
+        this.password = await hash(this.password, 10);
+    }
+    next();
+});
+
+userSchema.methods.comparePassword = async function (password) {
+    const result = await compare(password, this.password);
+    return result;
+}
 
 export default model("User", userSchema) as Model<UserDocuments>
 

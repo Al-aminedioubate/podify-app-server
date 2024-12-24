@@ -40,7 +40,7 @@ emailVerificationTokenSchema.pre('save', async function(next){
 emailVerificationTokenSchema.methods.compareToken = async function (token) {
     const result = await compare(token, this.token);
     return result;
-}
+};
 
 export default model("emailVerificationTokenSchema", emailVerificationTokenSchema) as Model<emailVerificationTokenDocument, {}, Methods>
 

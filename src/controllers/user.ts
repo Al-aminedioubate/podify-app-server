@@ -42,3 +42,4 @@ export const verifyEmail: RequestHandler = async (
 
   res.json({ message: "Your email is verified." });
 };
+

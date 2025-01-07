@@ -29,10 +29,10 @@ export const sendVerificationMail = async (token: string, profile: Profile) =>{
     const transport = generateMailTransporter();
     const {name, email, userId} = profile;
 
-    //creation of token 
+    //creer un doublons au niveau de la creation des tokens mais sans j'ai aucun token (un bug)
     await EmailVerificationToken.create({
         owner: userId,
-        token: token,
+        token,
     });
 
     //notre message de mailtrap

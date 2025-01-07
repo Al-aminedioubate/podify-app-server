@@ -105,6 +105,6 @@ export const generateForgetPasswordLink: RequestHandler = async (req, res) =>{
 
   const resetLink = `${PASSWORD_RESET_LINK}?token=${token}&userId=${user._id}`;           //generating the link to reset password.
   
-  res.json({resetLink});
+  res.json({resetLink});    
 
 };

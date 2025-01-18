@@ -9,7 +9,7 @@ export const CreateUserSchema = yup.object().shape({
 });
 
 //schema de validation de token and ID user
-export const EmailVerificationBody = yup.object().shape({
+export const TokenAndIDValidation = yup.object().shape({
     token: yup.string().trim().required("Invalide token!"),
     userId: yup.string().trim().transform(function(value){
         if(this.isType(value) && isValidObjectId(value)){

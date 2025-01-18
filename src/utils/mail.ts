@@ -19,6 +19,7 @@ const generateMailTransporter = () => {
     return transport
 } 
 
+//Method to send verification email to the user.
 interface Profile{
     name: string;
     email: string;
@@ -63,5 +64,46 @@ export const sendVerificationMail = async (token: string, profile: Profile) =>{
             },
         ]
     });
+};
+
+//La fonctionnalité d'envoie d'email pour le mot de passe oublié
+interface Options{
+    email: string;
+    link: string;
+}
+
+export const sendForgetPasswordLink = async (options: Options) => {
+   const transport = generateMailTransporter();
+
+    const { email, link} = options;
+
+    const message = "We just received a request that you forgot your password. No problem you can use the link bellow and reset your password.";
+
+    transport.sendMail({
+        to: email,
+        from: VERIFICATION_EMAIL,
+        subject: "Reset Password Link",
+        html: generateTemplate({
+            title: "Forget Password",
+            message,
+            logo: "cid:logo",
+            banner: "cid:forget_password",
+            link: link,
+            btnTitle: "Reset Password",
+        }),
+
+        attachments:[
+            {
+                filename: "logo.png",
+                path: path.join(__dirname, "../mail/logo.png"),
+                cid: "logo",
+            },
+            {
+                filename: "forget_password.png",
+                path: path.join(__dirname, "../mail/forget_password.png"),
+                cid: "forget_password",
+            },
+        ]
+    })
 }
 

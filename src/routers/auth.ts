@@ -10,5 +10,4 @@ router.post("/verify-email",validate(EmailVerificationBody), verifyEmail);
 router.post("/re-verify-email", sendReverificationToken);
 router.post("/forget-password", generateForgetPasswordLink);
 
-
 export default router;

@@ -19,3 +19,17 @@ export const TokenAndIDValidation = yup.object().shape({
         }
     }).required("Invalid userId!"),
 })
+
+//schema de validation de password
+export const UpdatePasswordSchema = yup.object().shape({
+    token: yup.string().trim().required("Invalide token!"),
+    userId: yup.string().trim().transform(function(value){
+        if(this.isType(value) && isValidObjectId(value)){
+            return value
+        }else{
+            return ""
+        }
+    }).required("Invalid userId!"),
+    password: yup.string().trim().required("Password is missing!").min(8, "Password is too short!")
+    .matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])[a-zA-Z\d!@#\$%\^&\*]+$/, "Password is too simple!"),
+});

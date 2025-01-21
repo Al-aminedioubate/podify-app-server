@@ -1,4 +1,4 @@
-import express  from "express";
+import express, { application }  from "express";
 import "dotenv/config";             //is imported for .env use or the app can't reconigze it and it has to be always placed before the DB import.
 import "./db";
 
@@ -9,6 +9,7 @@ const app = express();
 //Register our middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use(express.static("src/public"));
 
 app.use("/auth", authRouter);
 

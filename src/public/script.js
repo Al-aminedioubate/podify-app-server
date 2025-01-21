@@ -1,4 +1,4 @@
-//Our jS work space.
+//Our JS work space.
 const error = document.getElementById("error");
 const success = document.getElementById("success");
 

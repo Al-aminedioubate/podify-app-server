@@ -7,5 +7,6 @@ export const {
     VERIFICATION_EMAIL, 
     PASSWORD_RESET_LINK,
     SIGN_IN_URL,
+    JWT_SECRET,
 } = env;
 //export const MONGO_URI = process.env.MONGO_URI as string;

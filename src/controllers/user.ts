@@ -158,6 +158,7 @@ export const signIn: RequestHandler = async (req, res) => {
   const user = await User.findOne({
     email: email,
   });
+
   if (!user)
     return res.status(403).json({ error: "Email / Password is mismatch!" });
 
@@ -171,6 +172,7 @@ export const signIn: RequestHandler = async (req, res) => {
   user.tokens.push(token); //we store those token in our DB because they're not expirable.
 
   await user.save();
+
   res.json({
     profile: {
       id: user._id,

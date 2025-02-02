@@ -9,7 +9,7 @@ interface UserDocuments{
     verified: boolean;
     avatar?: {url: string; publicId: string}
     tokens: string[];
-    favarites: ObjectId[];
+    favorites: ObjectId[];
     followers: ObjectId[];
     followings: ObjectId[];
 }
@@ -43,7 +43,7 @@ const userSchema = new Schema<UserDocuments, {}, Methods >({
         type: Boolean,
        default: false,
     },
-    favarites:[{
+    favorites:[{
         type: Schema.Types.ObjectId,
         ref: "Audio"
     }],

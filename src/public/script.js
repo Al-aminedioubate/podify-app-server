@@ -20,7 +20,9 @@ container.style.display = "none";
 
 let token, userId;
 
-//verification de token
+const passRegex =
+  /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])[a-zA-Z\d!@#\$%\^&\*]+$/;
+
 window.addEventListener("DOMContentLoaded", async () => {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => {
@@ -42,7 +44,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }),
   });
 
-  if (!res.ok) {
+  if (res.ok) {
     const { error } = await res.json();
     loader.innerText = error;
     return;
@@ -51,3 +53,64 @@ window.addEventListener("DOMContentLoaded", async () => {
   loader.style.display = "none";
   container.style.display = "block";
 });
+
+const displayError = (errorMessage) => {
+  //first we need to remove if there is any success message
+  success.style.display = "none";
+  error.innerText = errorMessage;
+  error.style.display = "block";
+};
+
+const displaySuccess = (successMessage) => {
+  //first we need to remove if there is any error message
+  error.style.display = "none";
+  success.innerText = successMessage;
+  success.style.display = "block";
+};
+
+const handleSubmit = async (evt) => {
+  evt.preventDefault();
+  //validate
+  if (!passRegex.test(password.value)) {
+    //render error
+    return displayError(
+      "Password is too simple, use alpha numeric with special characters!"
+    );
+  }
+  if (password.value !== confirmPassword.value) {
+    //render error
+    return displayError("Password don't match!!");
+  }
+  button.disabled = true;
+  button.innerText = "PLease wait...";
+
+  const res = await fetch("/auth/update-password", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      token,
+      userId,
+      password: password.value,
+    }),
+  });
+  button.disabled = false;
+  button.innerText = "Reset Password";
+
+  if (res.ok) {
+    const { error } = await res.json();
+    return displayError(error);
+  }
+
+  displaySuccess("Your password is resets successfully!");
+
+  console.log("test" + password.value);
+  console.log("test" + confirmPassword.value);
+
+  //Reseting the form
+  password.value = "";
+  confirmPassword.value = "";
+};
+
+form.addEventListener("submit", handleSubmit);

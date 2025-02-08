@@ -36,5 +36,12 @@ router.post(
   updatePassword
 );
 router.post("/sign-in", validate(SignInValidationSchema), signIn);
+router.get("/is-auth", (req, res) => {
+  const { authorization } = req.headers;
+  const splittedValue = authorization?.split("Bearer");
+  console.log(splittedValue);
+
+  res.json({ ok: true });
+});
 
 export default router;

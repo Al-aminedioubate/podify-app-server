@@ -129,7 +129,7 @@ export const grantValid: RequestHandler = async (req, res) => {
   res.json({ valid: true });
 };
 
-//Updating password fonctions
+//Updating password From
 export const updatePassword: RequestHandler = async (req, res) => {
   const { password, userId } = req.body;
 
@@ -145,10 +145,14 @@ export const updatePassword: RequestHandler = async (req, res) => {
   user.password = password;
   await user.save();
 
-  PasswordResetToken.findOneAndDelete({ owner: user._id });
+  await PasswordResetToken.findOneAndDelete({ owner: user._id });
 
   //send the success email
-  sendPassResetSuccessEmail(user.name, user.email);
+  try {
+    await sendPassResetSuccessEmail(user.name, user.email);
+  } catch (error) {
+    console.log("error on sending mail", error);
+  }
   res.json({ message: "Password resets successfully." });
 };
 

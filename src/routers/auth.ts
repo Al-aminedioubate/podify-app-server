@@ -9,16 +9,13 @@ import {
 } from "#/controllers/user";
 import { isValidPassResetToken, mustAuth } from "#/middleware/auth";
 import { validate } from "#/middleware/validator";
-import User from "#/models/user";
 import {
   CreateUserSchema,
   SignInValidationSchema,
   TokenAndIDValidation,
   UpdatePasswordSchema,
 } from "#/utils/validationSchema";
-import { JWT_SECRET } from "#/utils/variables";
 import { Router } from "express";
-import { JwtPayload, verify } from "jsonwebtoken";
 
 const router = Router();
 
@@ -42,6 +39,16 @@ router.post("/sign-in", validate(SignInValidationSchema), signIn);
 router.get("/is-auth", mustAuth, (req, res) => {
   res.json({
     profile: req.user,
+  });
+});
+router.get("/public", (req, res) => {
+  res.json({
+    message: "You are in public route.",
+  });
+});
+router.get("/private", mustAuth, (req, res) => {
+  res.json({
+    message: "You are private route",
   });
 });
 

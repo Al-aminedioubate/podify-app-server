@@ -153,6 +153,7 @@ export const updatePassword: RequestHandler = async (req, res) => {
   } catch (error) {
     console.log("error on sending mail", error);
   }
+
   res.json({ message: "Password resets successfully." });
 };
 
@@ -160,7 +161,7 @@ export const signIn: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({
-    email: email,
+    email,
   });
 
   if (!user)
@@ -173,7 +174,8 @@ export const signIn: RequestHandler = async (req, res) => {
 
   //generate the token for later use. By using jsonwebtoken
   const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-  user.tokens.push(token); //we store those token in our DB because they're not expirable.
+  //user.tokens.push(token); //we store those token in our DB because they're not expirable.
+  user.tokens = [token];
 
   await user.save();
 

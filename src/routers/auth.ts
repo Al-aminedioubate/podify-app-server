@@ -7,15 +7,18 @@ import {
   updatePassword,
   verifyEmail,
 } from "#/controllers/user";
-import { isValidPassResetToken } from "#/middleware/auth";
+import { isValidPassResetToken, mustAuth } from "#/middleware/auth";
 import { validate } from "#/middleware/validator";
+import User from "#/models/user";
 import {
   CreateUserSchema,
   SignInValidationSchema,
   TokenAndIDValidation,
   UpdatePasswordSchema,
 } from "#/utils/validationSchema";
+import { JWT_SECRET } from "#/utils/variables";
 import { Router } from "express";
+import { JwtPayload, verify } from "jsonwebtoken";
 
 const router = Router();
 
@@ -36,12 +39,10 @@ router.post(
   updatePassword
 );
 router.post("/sign-in", validate(SignInValidationSchema), signIn);
-router.get("/is-auth", (req, res) => {
-  const { authorization } = req.headers;
-  const splittedValue = authorization?.split("Bearer");
-  console.log(splittedValue);
-
-  res.json({ ok: true });
+router.get("/is-auth", mustAuth, (req, res) => {
+  res.json({
+    profile: req.user,
+  });
 });
 
 export default router;

@@ -2,11 +2,14 @@ import {
   create,
   generateForgetPasswordLink,
   grantValid,
+  logOut,
+  sendProfile,
   sendReverificationToken,
   signIn,
   updatePassword,
+  updateProfile,
   verifyEmail,
-} from "#/controllers/user";
+} from "#/controllers/auth";
 import { isValidPassResetToken, mustAuth } from "#/middleware/auth";
 import { validate } from "#/middleware/validator";
 import {
@@ -38,25 +41,8 @@ router.post(
   updatePassword
 );
 router.post("/sign-in", validate(SignInValidationSchema), signIn);
-router.get("/is-auth", mustAuth, (req, res) => {
-  res.json({
-    profile: req.user,
-  });
-});
-router.get("/public", (req, res) => {
-  res.json({
-    message: "You are in public route.",
-  });
-});
-router.get("/private", mustAuth, (req, res) => {
-  res.json({
-    message: "You are private route",
-  });
-});
-
-router.post("/update-profile", fileParser, (req: RequestWithFiles, res)=>{
-  console.log(req.files)
-  res.json({ok: true})
-});
+router.get("/is-auth", mustAuth,  sendProfile);
+router.post("/update-profile", mustAuth, fileParser, updateProfile);
+router.post("/log-out", mustAuth, logOut)
 
 export default router;

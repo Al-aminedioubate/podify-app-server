@@ -2,7 +2,8 @@ import { compare, hash } from "bcrypt";
 import { model, Model, ObjectId, Schema } from "mongoose";
 
 //creation d'interface(typescript) pour le model de l'utilisateur.
-interface UserDocuments{
+export interface UserDocuments{
+    _id: ObjectId;
     name: string;
     email: string;
     password: string;

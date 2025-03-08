@@ -23,14 +23,19 @@ export const isValidPassResetToken: RequestHandler = async (req, res, next) => {
   next();
 };
 
+
 export const mustAuth: RequestHandler = async (req, res, next) => {
   const { authorization } = req.headers;
   const token = authorization?.split("Bearer")[1];
+
+  console.log("token value " + token);
+
   if (!token)
     return res.status(403).json({ error: "Unauthorized request! best" });
 
   const payload = verify(token, JWT_SECRET) as JwtPayload;
   const id = payload.userId;
+
 
   const user = await User.findOne({ _id: id, tokens: token });
   if (!user) return res.status(403).json({ error: "Unauthorized request!" });
@@ -44,6 +49,8 @@ export const mustAuth: RequestHandler = async (req, res, next) => {
     followers: user.followers.length,
     followings: user.followings.length,
   };
+
+  req.token = token;
 
   next();
 };

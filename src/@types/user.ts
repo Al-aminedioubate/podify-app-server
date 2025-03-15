@@ -22,7 +22,7 @@ declare global {
         id: any;
         name: string;
         email: string;
-        verified: Boolean;
+        verified: boolean;
         avatar?: string;
         followers: number;
         followings: number;
